@@ -23,7 +23,7 @@ Y = array([[1, 0, 1, 0, 1, 0, 0, 0]]).T
 
 class nn:
     def __init__(self, *shape):
-        self.edges = array(list(map(randn, shape[:-1], shape[1:])), dtype=object)
+        self.edges = array([*map(randn, shape[:-1], shape[1:])], dtype=object)
 
 
     def forward(self, x):
