@@ -1,4 +1,4 @@
-from numpy import array, exp, average, newaxis
+from numpy import array, zeros, ones, exp, average, newaxis
 from numpy.random import randn
 
 
@@ -7,19 +7,18 @@ def A(x):
 
 
 X = array([
-  [0, 0, 0, 0],
-  [0, 0, 1, 0],
-  [0, 1, 0, 0],
-  [0, 1, 1, 0],
-  [1, 0, 0, 0],
-  [1, 0, 1, 0],
-  [1, 1, 0, 0],
-  [1, 1, 1, 0],
-  [1, 0, 0, 1]
+    [0, 0, 1, 0, 1, 0],
+    [1, 1, 0, 1, 0, 0],
+    [1, 0, 1, 0, 0, 0],
+    [1, 1, 1, 0, 1, 0],
+    [0, 1, 0, 1, 0, 0],
+    [0, 0, 0, 1, 1, 0],
+    [1, 0, 1, 0, 1, 0],
+    [1, 1, 0, 1, 0, 1]
 ])
 
 
-Y = array([[0, 0, 0, 1, 0, 1, 1, 1, 1]]).T
+Y = array([[1, 0, 1, 0, 1, 0, 0, 0]]).T
 
 
 class nn:
@@ -30,10 +29,9 @@ class nn:
     def forward(self, x):
         net = [ x ]
 
-        for i, edges in enumerate(self.edges[:-1]):
+        for i, edges in enumerate(self.edges):
             net.append(A(net[i] @ edges))
 
-        net.append(net[-1] @ self.edges[-1])
         return net
 
 
@@ -56,3 +54,7 @@ class nn:
 
           for j, delta in enumerate(deltas):
               self.edges[j] += -0.5 * delta
+
+
+    def predict(self, x):
+        return self.forward(x)[-1]
