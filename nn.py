@@ -23,7 +23,7 @@ Y = array([[1, 0, 1, 0, 1, 0, 0, 0]]).T
 
 class nn:
     def __init__(self, *shape):
-        self.edges = list(map(randn, shape[:-1], shape[1:]))
+        self.edges = array(list(map(randn, shape[:-1], shape[1:])), dtype=object)
 
 
     def forward(self, x):
@@ -44,16 +44,13 @@ class nn:
             loss = layer * (1 - layer) * (loss @ self.edges[i].T)
             prev = net[i - 1]
 
-            yield average(prev[:, :, newaxis] * loss[: , newaxis, :], axis=0)
+            yield average(prev[:, :, newaxis] * loss[:, newaxis, :], axis=0)
 
 
-    def learn(self, x, y, time):
+    def fit(self, x, y, time):
 
         for i in range(time):
-          deltas = list(reversed(list(self.back(self.forward(x), y))))
-
-          for j, delta in enumerate(deltas):
-              self.edges[j] += -0.5 * delta
+          self.edges += -0.5 * array(list(reversed(list(self.back(self.forward(x), y)))), dtype=object)
 
 
     def predict(self, x):
