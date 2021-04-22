@@ -1,9 +1,10 @@
-from numpy import array, average
+from numpy import array, sum, exp, average
 from numpy.random import seed, rand
 
 
 A = lambda x: x * (x > 0)
 m = lambda x: 1 * (x > 0)
+norm = lambda x: exp(e) / sum(exp(e))
 
 
 class nn:
@@ -16,8 +17,8 @@ class nn:
 
         for i, links in enumerate(self.links):
             x.append(A(x[i] @ links))
-        
-        # apply softmax
+         
+        norm(x)
 
 
     def back(self, x, y):
