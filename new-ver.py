@@ -16,6 +16,8 @@ class nn:
 
         for i, links in enumerate(self.links):
             x.append(A(x[i] @ links))
+        
+        # apply softmax
 
 
     def back(self, x, y):
